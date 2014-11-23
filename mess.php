@@ -162,11 +162,11 @@ background-color: #F3FCE4;
         </div>
         
         <!-- This script is running to get the messages -->
+        <script type="text/javascript" src="min/index.php?f=js/jquery.js,js/bootstrap.js,MessageBoard.js,js/script.js,Message.js"></script>
         <script>
             $(document).ready(function() {
                 MessageBoard.getMessages();
             });
         </script>
-        <script type="text/javascript" src="min/index.php?f=js/jquery.js,js/bootstrap.js,MessageBoard.js,js/script.js,Message.js"></script>
     </body>
 	</html>
