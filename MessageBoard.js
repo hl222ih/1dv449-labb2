@@ -6,7 +6,7 @@ var MessageBoard = {
 
     init:function(e)
     {
-	
+
 		    MessageBoard.textField = document.getElementById("inputText");
 		    MessageBoard.nameField = document.getElementById("inputName");
             MessageBoard.messageArea = document.getElementById("messagearea");
@@ -29,7 +29,6 @@ var MessageBoard = {
     
     },
     getMessages:function() {
-        console.log("INNE");
         $.ajax({
 			type: "GET",
 			url: "functions.php",
@@ -37,7 +36,7 @@ var MessageBoard = {
 		}).done(function(data) { // called when the AJAX call is ready
 						
 			data = JSON.parse(data);
-		
+		    alert(data);
 			
 			for(var mess in data) {
 				var obj = data[mess];

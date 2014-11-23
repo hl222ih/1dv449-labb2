@@ -64,7 +64,6 @@
   <body>
 
     <div class="container">
-      <h1><?php echo"" ?></h1>
       <form class="form-signin" action="check.php" method="POST">
         <h2 class="form-signin-heading">Log in</h2>
         <input value="" name="username" type="text" class="form-control" placeholder="Användarnamn" required autofocus>
