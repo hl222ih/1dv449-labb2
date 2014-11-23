@@ -16,9 +16,6 @@
     <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
     <link rel="shortcut icon" href="pic/favicon.png">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-   
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/longpoll.js"></script>
 
 	<style type="text/css">
 	
@@ -59,7 +56,7 @@
     color:Gray;
 }
 
-html {background:url(pic/b.jpg);}
+/*html {background:url(pic/b.jpg);}*/
 
 .message {
     width:590px;
@@ -132,17 +129,20 @@ background-color: #F3FCE4;
 }
 	
 	</style>
-	
+
+<!--
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/longpoll.js"></script>
 	<script src="js/jquery.js"></script>
-	<script src="MessageBoard.js"></script>
-	<script src="js/script.js"></script>
-	<script src="Message.js"></script>
-    
+  <script src="MessageBoard.js"></script>
+  <script src="js/script.js"></script>
+  <script src="Message.js"></script>-->
+
+
 	<title>Messy Labbage</title>
   </head>
-	  
-	  	<body background="http://www.lockley.net/backgds/big_leo_minor.jpg">        
 
+        <body>
         <div id="container">
             
             <div id="messageboard">
@@ -162,11 +162,11 @@ background-color: #F3FCE4;
         </div>
         
         <!-- This script is running to get the messages -->
-			<script>
-				$(document).ready(function() {
-					MessageBoard.getMessages();
-				});
-			</script>
-			<script src="js/bootstrap.js"></script>
-	</body>
+        <script>
+            $(document).ready(function() {
+                MessageBoard.getMessages();
+            });
+        </script>
+        <script type="text/javascript" src="min/index.php?f=js/jquery.js,js/bootstrap.js,MessageBoard.js,js/script.js,Message.js"></script>
+    </body>
 	</html>
