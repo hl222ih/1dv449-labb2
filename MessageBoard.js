@@ -36,8 +36,7 @@ var MessageBoard = {
 		}).done(function(data) { // called when the AJAX call is ready
 						
 			data = JSON.parse(data);
-		    alert(data);
-			
+
 			for(var mess in data) {
 				var obj = data[mess];
 			    var text = obj.name +" said:\n" +obj.message;

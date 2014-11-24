@@ -20,10 +20,12 @@ function checkUser() {
 		sec_session_start();
 	}
 
-	if(!isset($_SESSION["user"])) {header('HTTP/1.1 401 Unauthorized'); die();}
+//	if(!isset($_SESSION["user"])) {header('HTTP/1.1 401 Unauthorized'); die();}
+	if(!isset($_SESSION["username"])) {header('HTTP/1.1 401 Unauthorized'); die();}
 
-	$user = getUser($_SESSION["user"]);
-	$un = $user[0]["username"];
+//	$user = getUser($_SESSION["user"]);
+//	$un = $user[0]["username"];
+    $un = $_SESSION["username"];
 
 	if(isset($_SESSION['login_string'])) {
 		if($_SESSION['login_string'] !== hash('sha512', "123456" + $un) ) {
