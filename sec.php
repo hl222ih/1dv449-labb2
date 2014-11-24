@@ -48,16 +48,20 @@ function isUser($u, $p) {
 	catch(PDOEception $e) {
 		die("Del -> " .$e->getMessage());
 	}
-	$q = "SELECT id FROM users WHERE username = '$u' AND password = '$p'";
+	//$q = "SELECT id FROM users WHERE username = '$u' AND password = '$p'";
+    $q = "SELECT id FROM users WHERE username = :username AND password = :password";
 
 	$result;
 	$stm;
 	try {
 		$stm = $db->prepare($q);
+        $stm->bindParam(':username', $u, PDO::PARAM_STR);
+        $stm->bindParam(':password', $p, PDO::PARAM_STR);
 		$stm->execute();
 		$result = $stm->fetchAll();
 		if(!$result) {
-			return "Could not find the user";
+			echo "Could not find the user";
+            return false;
 		}
 	}
 	catch(PDOException $e) {
