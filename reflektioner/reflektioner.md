@@ -1,3 +1,54 @@
+SÄKERHET
+--------
+
+Säkerhetshål: Det går att komma åt meddelandesidan utan att man är inloggad.
+Hur kan det utnyttjas: Man kan läsa och posta meddelanden trots att man inte är behörig.
+Vad för skada det kan göra: Man kan genom meddelandena ta del av information som man inte har rätt att ta del av. Man kan
+skicka meddelanden trots att man inte har rätt att göra det.
+Åtgärd: Rättat till checkUser() i sec.php så att den kollar rätt sessionsnyckel, och sett till att funktionen anropas från
+mess.php.
+
+Säkerhetshål: Det går att logga in med vilka användaruppgifter som helst.
+Hur kan det utnyttjas: Samma som ovan.
+Vad för skada kan det göra: Samma som ovan.
+Åtgärd: Fixat så att isUser() i sec.php returnerar false om en användare inte kan hittas.
+
+Säkerhetshål: isUser() är sårbar för SQL-injektioner.
+Hur kan det utnyttjas: Det kan utnyttjas för att logga in utan användarkonto, ex.vis om detta skrivs in i loginrutan och
+lösenordsrutan: ' or 'logmein' = 'logmein
+Vad för skada det kan göra: Samma som ovan. (ingen risk för drop tables, eftersom prepare statement bara kan innehålla ett
+statement).
+Åtgärd: Har parameteriserat användarnamnet och det hashade lösenordet.
+
+Säkerhetshål: Session hijacking genom XSS-attack. Det antyds i koden genom $httponly = true; att scriptet skyddar mot en
+typ av Session hijacking med hjälp av javascript. Detta görs dock inte med denna kod. (kanske det är inställt på servern
+by default?)
+Hur det kan utnyttjas: Sessions-ID kan kommas åt med hjälp av ett javascript som datorn kan vara smittad med eller som
+körs när användaren besöker en skadlig webbplats.
+Vad för skada det kan göra: Samma som ovan.
+Åtgärd: Lägger till ini_set("session.cookie_httponly", true); på raden under.
+
+Säkerhetshål: Klick på logout-knapp loggar inte ut användare.
+Hur kan det utnyttjas: En annan användare som använder datorn eller har tillgång till sessions-cookien kan då komma åt
+applikationen utan att logga in.
+Vad för skada kan det göra: Samma som ovan.
+Åtgärd: Har sett till så att sessionen och sessionskakan förstörs när användaren klickar på logout.
+
+Säkerhetshål: Kanske är by design, men, utan att man aktivt valt att komma ihåg sessionen är det väl rimligt att den inte hålls vid liv bortom stängandet av webbläsaren.
+Hur det kan utnyttjas: Användaren tror säkert att den blivit utloggad när den stängt webbläsaren. En annan person kan då komma åt kontot när webbläsaren öppnas igen om sessionen fortfarande lever.
+Vad för skada kan det göra: Samma som ovan.
+Åtgärd: Ändrar session.cookie_lifetime i sec.php till 0 istället för 3600 som tidigare.
+
+Säkerhetshål: Sessionen är inte begränsad till en viss dator/webbläsare.
+Hur kan det utnyttjas: Någon kan sno sessionkakan och logga in på kontot från en annan dator.
+Vad för skada kan det göra: Samma som ovan.
+Åtgärd: Lägger till ett värde för userAgent i sessionen och kontrollerar förutom att användare och lösen
+
+Säkerhetshål: Lösenordet lagras i klartext i databasen. Hashning sker i koden men till ingen nytta vilket inger falsk säkerhet.
+Hur kan det utnyttjas: Egentligen säkert så länge databasens integritet är tryggad, och det är inget man ska räkna med.
+Vad för skada kan det göra: Om lösenorden i databasen ändå kommer på avvägar kan det göra stor skada för användarna som kanske ex.vis använder samma lösenord på fler ställen.
+Åtgärd: Haschat lösenordet med användarnamnet som salt istället för meningslös hashning av användarnamnet och en sträng "123456". Fixat så att de hashade lösenorden är lagrade i databasen istället för i klartext.
+
 OPTIMERING
 ----------
 
@@ -74,7 +125,7 @@ eller innebär, samt att jag behöver ställa in cachning för den nämnda resur
 Reflektion: Jag har ju ställt in cachning på klienten genom att ange header i IIS Manager, men tydligen funkar det inte på
 en dynamisk resurs som denna.
 
-Åtgärd 2: I IIS Manager la jag till en regel för Output caching för den querysträngvariabel som använd av Minify.
+Åtgärd 2: I IIS Manager la jag till en regel för Output caching för den querysträngvariabel som används av Minify.
 
 Observation 2: Enligt Tools.pingdom.com 126ms till strax under en sekund laddningstid, alltså inte märkbart. Men den
 egentliga vinsten är ju om jag nu inte gjort detta fel att javascripten lagras mellan förfrågningarna, även nu när de
