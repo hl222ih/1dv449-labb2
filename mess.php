@@ -149,7 +149,7 @@ background-color: #F3FCE4;
             
             <div id="messageboard">
                 <input class="btn btn-danger" type="button" id="buttonLogout" value="Logout" style="margin-bottom: 20px;" />
-                
+
                 <div id="messagearea"></div>
                 
                 <p id="numberOfMess">Antal meddelanden: <span id="nrOfMessages">0</span></p>

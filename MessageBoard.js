@@ -132,7 +132,14 @@ var MessageBoard = {
          alert(showTime);
     },
     logout: function() {
-        window.location = "index.php";
+        $.ajax({
+            type: "GET",
+            url: "functions.php",
+            data: {function: "logout"}
+        }).done(function(data) {
+            window.location = "index.php";
+            //alert("you are now logged out.");
+        });
     }
 }
 

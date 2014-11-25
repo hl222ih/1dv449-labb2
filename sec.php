@@ -8,8 +8,9 @@ function sec_session_start() {
         $secure = false; // Set to true if using https.
         ini_set('session.use_only_cookies', 1); // Forces sessions to only use cookies.
         $cookieParams = session_get_cookie_params(); // Gets current cookies params.
-        session_set_cookie_params(3600, $cookieParams["path"], $cookieParams["domain"], $secure, false);
-        $httponly = true; // This stops javascript being able to access the session id.
+        session_set_cookie_params(0, $cookieParams["path"], $cookieParams["domain"], $secure, false);
+        //$httponly = true; // This stops javascript being able to access the session id.
+        ini_set("session.cookie_httponly", true); // This stops javascript being able to access the session id.
         session_name($session_name); // Sets the session name to the one set above.
         session_start(); // Start the php session
         session_regenerate_id(); // regenerated the session, delete the old one.
@@ -72,6 +73,7 @@ function isUser($u, $p) {
 	
 }
 
+//obs, fixa skydd mot sql injection om denna metod ska användas. (används dock inte till något nu)
 function getUser($user) {
 	$db = null;
 
@@ -101,10 +103,12 @@ function getUser($user) {
 
 function logout() {
 
+
 	if(!session_id()) {
 		sec_session_start();
 	}
-	session_end();
-	header('Location: index.php');
+    unset($_COOKIE['sec_session_id']);
+    setcookie('sec_session_id', null, -1, '/');
+    session_destroy();
 }
 
