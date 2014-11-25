@@ -133,3 +133,8 @@ minifierats och komprimerats. Tools.pingdom.com ger nu 100% på samtliga punkter
 minifierade javascripten cachas på servern dock, så det kanske är nåt att se över för att spara lite på serverns resurser
 men det får bli en annan gång.
 
+### 5. Avlusning
+Teori: Anrop av test/debug.php lägger in en fördröjning på viss tid när meddelanden skickas. Om anropet dit tas bort,
+går postning av nya meddelanden snabbare.
+Åtgärd: Tog bort anropet till test/debug.php.
+Observation: Postning av meddelande snabbades upp.

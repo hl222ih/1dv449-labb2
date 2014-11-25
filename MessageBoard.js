@@ -34,17 +34,14 @@ var MessageBoard = {
 			url: "functions.php",
 			data: {function: "getMessages"}
 		}).done(function(data) { // called when the AJAX call is ready
-						
-			data = JSON.parse(data);
+		    data = JSON.parse(data);
 
 			for(var mess in data) {
 				var obj = data[mess];
 			    var text = obj.name +" said:\n" +obj.message;
 				var mess = new Message(text, new Date());
                 var messageID = MessageBoard.messages.push(mess)-1;
-    
                 MessageBoard.renderMessage(messageID);
-				
 			}
 			document.getElementById("nrOfMessages").innerHTML = MessageBoard.messages.length;
 			
@@ -53,7 +50,7 @@ var MessageBoard = {
 
     },
     sendMessage:function(){
-        
+alert("sending message");
         if(MessageBoard.textField.value == "") return;
         
         // Make call to ajax
@@ -62,7 +59,8 @@ var MessageBoard = {
 		  	url: "functions.php",
 		  	data: {function: "add", name: MessageBoard.nameField.value, message:MessageBoard.textField.value}
 		}).done(function(data) {
-		  alert("Your message is saved! Reload the page for watching it");
+            alert(data);
+   		  alert("Your message is saved! Reload the page for watching it");
 		});
     
     },
@@ -72,6 +70,7 @@ var MessageBoard = {
      
         // Renders all messages.
         for(var i=0; i < MessageBoard.messages.length; ++i){
+
             MessageBoard.renderMessage(i);
         }        
         
@@ -138,9 +137,8 @@ var MessageBoard = {
             data: {function: "logout"}
         }).done(function(data) {
             window.location = "index.php";
-            //alert("you are now logged out.");
         });
     }
-}
+};
 
 window.onload = MessageBoard.init;

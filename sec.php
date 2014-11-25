@@ -52,7 +52,8 @@ function isUser($u, $p) {
 		$db = new PDO("sqlite:db.db");
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
-	catch(PDOEception $e) {
+	catch(PDOException $e) {
+        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
 		die("Del -> " .$e->getMessage());
 	}
 	//$q = "SELECT id FROM users WHERE username = '$u' AND password = '$p'";
@@ -72,7 +73,8 @@ function isUser($u, $p) {
 		}
 	}
 	catch(PDOException $e) {
-		echo("Error creating query: " .$e->getMessage());
+        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
+        echo("Error creating query: " .$e->getMessage());
 		return false;
 	}
 	return $result;
@@ -87,8 +89,9 @@ function getUser($user) {
 		$db = new PDO("sqlite:db.db");
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
-	catch(PDOEception $e) {
-		die("Del -> " .$e->getMessage());
+	catch(PDOException $e) {
+        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
+        die("Del -> " .$e->getMessage());
 	}
 	$q = "SELECT * FROM users WHERE username = '$user'";
 
@@ -100,7 +103,8 @@ function getUser($user) {
 		$result = $stm->fetchAll();
 	}
 	catch(PDOException $e) {
-		echo("Error creating query: " .$e->getMessage());
+        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
+        echo("Error creating query: " .$e->getMessage());
 		return false;
 	}
 
@@ -113,8 +117,9 @@ function logout() {
 	if(!session_id()) {
 		sec_session_start();
 	}
-    unset($_COOKIE['sec_session_id']);
-    setcookie('sec_session_id', null, -1, '/');
+    unset($_COOKIE[session_name()]);
+    setcookie(session_name(), null, -1, '/');
     session_destroy();
+    session_unset();
 }
 
