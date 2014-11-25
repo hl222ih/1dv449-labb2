@@ -28,19 +28,25 @@ function checkUser() {
 //	$un = $user[0]["username"];
     $un = $_SESSION["username"];
 
-	if(isset($_SESSION['login_string'])) {
-		if($_SESSION['login_string'] !== hash('sha512', "123456" + $un) ) {
-			header('HTTP/1.1 401 Unauthorized'); die();
-		}
-	}
-	else {
-		header('HTTP/1.1 401 Unauthorized'); die();
-	}
+//	if(isset($_SESSION['login_string'])) {
+//		if($_SESSION['login_string'] !== hash('sha512', $p.$un) ) {
+//			header('HTTP/1.1 401 Unauthorized'); die();
+//		} else
+    if (isset($_SESSION['user_agent'])) {
+
+        if ($_SERVER['HTTP_USER_AGENT'] !== $_SESSION['user_agent']) {
+            header('HTTP/1.1 401 Unauthorized'); die();
+        }
+    } else {
+        header('HTTP/1.1 401 Unauthorized'); die();
+    }
 	return true;
 }
 
 function isUser($u, $p) {
 	$db = null;
+
+    $p = hash('sha512', $p.$u);
 
 	try {
 		$db = new PDO("sqlite:db.db");

@@ -10,8 +10,8 @@ if(isset($u) && isset($p) && isUser($u, $p)) {
 	// set the session
 	sec_session_start();
 	$_SESSION['username'] = $u;
-	$_SESSION['login_string'] = hash('sha512', "123456" +$u);
-
+	//$_SESSION['login_string'] = hash('sha512', "123456".$u); meningslös
+    $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
     header("Location: mess.php");
 }
 else {
