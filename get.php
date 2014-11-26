@@ -2,7 +2,6 @@
 
 // get the specific message
 function getMessages() {
-    file_put_contents('php_errors.log', "\r\ntrying to get messages", FILE_APPEND);
 	$db = null;
 
 	try {
@@ -10,7 +9,6 @@ function getMessages() {
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 	catch(PDOException $e) {
-        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
         unset($db);
 		die("Del -> " .$e->getMessage());
 	}
@@ -25,7 +23,6 @@ function getMessages() {
 		$result = $stm->fetchAll();
 	}
 	catch(PDOException $e) {
-        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
         echo("Error creating query: " .$e->getMessage());
         unset($stm);
         unset($db);
@@ -34,11 +31,9 @@ function getMessages() {
     unset($db);
 
 	if($result) {
-        file_put_contents('php_errors.log', "got results\r\n", FILE_APPEND);
         return $result;
     }
 	else {
-        file_put_contents('php_errors.log', "got no results\r\n", FILE_APPEND);
         return false;
     }
 }

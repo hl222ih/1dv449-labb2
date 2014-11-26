@@ -61,7 +61,9 @@ alert("sending message");
 		}).done(function(data) {
             alert(data);
    		  alert("Your message is saved! Reload the page for watching it");
-		});
+		}).fail(function() {
+            alert("retrieving failed");
+        });
     
     },
     renderMessages: function(){

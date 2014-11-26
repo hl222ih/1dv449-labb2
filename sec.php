@@ -53,7 +53,6 @@ function isUser($u, $p) {
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 	catch(PDOException $e) {
-        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
 		die("Del -> " .$e->getMessage());
 	}
 	//$q = "SELECT id FROM users WHERE username = '$u' AND password = '$p'";
@@ -73,7 +72,6 @@ function isUser($u, $p) {
 		}
 	}
 	catch(PDOException $e) {
-        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
         echo("Error creating query: " .$e->getMessage());
 		return false;
 	}
@@ -90,7 +88,6 @@ function getUser($user) {
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 	catch(PDOException $e) {
-        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
         die("Del -> " .$e->getMessage());
 	}
 	$q = "SELECT * FROM users WHERE username = '$user'";
@@ -103,7 +100,6 @@ function getUser($user) {
 		$result = $stm->fetchAll();
 	}
 	catch(PDOException $e) {
-        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
         echo("Error creating query: " .$e->getMessage());
 		return false;
 	}

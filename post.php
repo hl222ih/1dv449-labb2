@@ -4,7 +4,6 @@
 * Called from AJAX to add stuff to DB
 */
 function addToDB($message, $user) {
-    file_put_contents('php_errors.log', "message: $message, user: $user", FILE_APPEND);
     $db = null;
 
 	try {
@@ -12,7 +11,6 @@ function addToDB($message, $user) {
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 	catch(PDOException $e) {
-        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
         unset($db);
         die("Something went wrong -> " .$e->getMessage());
 	}
@@ -20,11 +18,10 @@ function addToDB($message, $user) {
 	
 	try {
         if(!$db->query($q)) {
-            file_put_contents('php_errors.log', "couldn't insert message", FILE_APPEND);
+            file_put_contents('php_errors3.log', "couldn't insert message", FILE_APPEND);
         }
 	}
 	catch(PDOException $e) {
-        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
         unset($db);
     }
 	
@@ -41,7 +38,6 @@ function addToDB($message, $user) {
 		}
 	}
 	catch(PDOException $e) {
-        file_put_contents('php_errors.log', $e->getMessage(), FILE_APPEND);
         echo("Error creating query: " .$e->getMessage());
         unset($stm);
         unset($db);
@@ -49,6 +45,6 @@ function addToDB($message, $user) {
 	}
 	// Send the message back to the client
     unset($db);
-    echo "Message saved by user: " .json_encode($result);
+    return json_encode($result);
 }
 

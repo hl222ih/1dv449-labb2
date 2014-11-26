@@ -8,9 +8,6 @@ require_once("sec.php");
 * It's here all the ajax calls goes
 */
 if(isset($_GET['function'])) {
-    //letat flera timmar nu,
-    file_put_contents('php_errors.log', "\r\nfunctions.php called: ".$_GET['function']." ", FILE_APPEND);
-
     if($_GET['function'] == 'logout') {
 		logout();
     } 
