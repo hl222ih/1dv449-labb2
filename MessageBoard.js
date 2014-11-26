@@ -50,7 +50,6 @@ var MessageBoard = {
 
     },
     sendMessage:function(){
-alert("sending message");
         if(MessageBoard.textField.value == "") return;
         
         // Make call to ajax
@@ -59,8 +58,7 @@ alert("sending message");
 		  	url: "functions.php",
 		  	data: {function: "add", name: MessageBoard.nameField.value, message:MessageBoard.textField.value}
 		}).done(function(data) {
-            alert(data);
-   		  alert("Your message is saved! Reload the page for watching it");
+   		    alert("Your message is saved! Reload the page for watching it");
 		}).fail(function() {
             alert("retrieving failed");
         });

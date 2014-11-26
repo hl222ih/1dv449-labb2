@@ -49,6 +49,11 @@ Hur kan det utnyttjas: Egentligen säkert så länge databasens integritet är t
 Vad för skada kan det göra: Om lösenorden i databasen ändå kommer på avvägar kan det göra stor skada för användarna som kanske ex.vis använder samma lösenord på fler ställen.
 Åtgärd: Haschat lösenordet med användarnamnet som salt istället för meningslös hashning av användarnamnet och en sträng "123456". Fixat så att de hashade lösenorden är lagrade i databasen istället för i klartext.
 
+Säkerhetshål: Det går att anropa functions.php utan att vara inloggad.
+Hur kan det utnyttjas: Man kan skicka och hämta meddelanden direkt med hjälp av query-strängen.
+Vad för skada kan det göra: Samma som första.
+Åtgärd: La in en check att användaren är inloggad även i functions.php.
+
 OPTIMERING
 ----------
 
