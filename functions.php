@@ -14,7 +14,9 @@ if(isset($_GET['function'])) {
     } 
     elseif($_GET['function'] == 'add') {
 	    $name = $_GET["name"];
+        $name = strip_tags($name);
 		$message = $_GET["message"];
+        $message = strip_tags($message);
 		addToDB($message, $name);
     }
     elseif($_GET['function'] == 'getMessages') {

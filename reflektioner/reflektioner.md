@@ -54,6 +54,11 @@ Hur kan det utnyttjas: Man kan skicka och hämta meddelanden direkt med hjälp a
 Vad för skada kan det göra: Samma som första.
 Åtgärd: La in en check att användaren är inloggad även i functions.php.
 
+Säkerhetshål: Man kan skicka med html i namn och meddelande.
+Hur kan det utnyttjas: Det kan innehålla skadlig kod som t ex ett javascript inbäddat i script-taggar.
+Vad för skada kan det göra: Det kan utföra attacker på olika sätt.
+Åtgärd: Har använt strip_tags() för att ta bort html innan namn och meddelande sparas i databasen.
+
 OPTIMERING
 ----------
 
