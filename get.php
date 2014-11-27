@@ -1,8 +1,11 @@
 <?php
 
 // get the specific message
-function getMessages() {
+function getMessages($sinceSerial) {
 	$db = null;
+    if (!$sinceSerial) {
+        $sinceSerial = 0;
+    }
 
 	try {
         $db = new PDO("sqlite:db.db");
@@ -13,13 +16,14 @@ function getMessages() {
 		die("Del -> " .$e->getMessage());
 	}
 	
-	$q = "SELECT * FROM messages";
-	
+	$q = "SELECT * FROM messages WHERE serial > :serial";
+
 	$result = "";
 	$stm = "";
 	try {
 		$stm = $db->prepare($q);
-		$stm->execute();
+        $stm->bindParam(':serial', $sinceSerial, PDO::PARAM_INT);
+        $stm->execute();
 		$result = $stm->fetchAll();
 	}
 	catch(PDOException $e) {

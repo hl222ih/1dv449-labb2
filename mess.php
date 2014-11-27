@@ -168,6 +168,7 @@ background-color: #F3FCE4;
         <script>
             $(document).ready(function() {
                 MessageBoard.getMessages();
+
             });
         </script>
     </body>

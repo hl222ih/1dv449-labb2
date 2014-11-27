@@ -148,3 +148,22 @@ Teori: Anrop av test/debug.php lägger in en fördröjning på viss tid när med
 går postning av nya meddelanden snabbare.
 Åtgärd: Tog bort anropet till test/debug.php.
 Observation: Postning av meddelande snabbades upp.
+
+LONG-POLLING
+------------
+
+Krav 1: Sista meddelandet hamnar högst upp i meddelande listan eftersom jag ändrat appendChild till insertBefore för de
+renderade meddelandena.
+Krav 2: message-objekten som hämtas från servern innehåller ett "serial"-attribut. Det används i ajax-anropet till servern.
+Servern frågar databasen efter meddelanden som har ett serial högre än det medskickade värdet. Om det blir 0 meddelanden
+så pausar servern en sekund och gör sedan en ny förfrågan till databasen. När det blir fler än 0 meddelanden returneras
+meddelandena till klienten som renderar meddelandena i vanlig ordning.
+Krav 3: Fördelar och nackdelar i förhållande till vadå?
+Fördelarna med denna lösning var att det med relativt få kodändringar i förhållande till den tillgängliga koden.
+Fördelarna med long-polling i förhållande till originallösningen är att man slipper klicka på OK i alert-rutan och
+manuellt uppdatera sidan.
+Fördelarna med long-polling i förhållande till upprepade server-requests från klienten är att det blir färre
+serverförfrågningar, något man ska försöka hålla nere främst av prestandaskäl.
+Känner inte till hur "dyr" en förfrågan till databasen är för att ta reda på om det kommit några nya meddelanden,
+men jag antar att det förstås går att optimera så att t ex högsta serial-numret lagras på något mer lättåtkomligt ställe.
+Keep-alive används i ajax-anropet, men jag har inte kollat hur länge som "uppkopplingen" verkligen hålls levande.

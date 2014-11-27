@@ -3,6 +3,7 @@ var MessageBoard = {
     messages: [],
     textField: null,
     messageArea: null,
+    maxSerial: 0, //the highest message serial rendered.
 
     init:function(e)
     {
@@ -32,22 +33,22 @@ var MessageBoard = {
         $.ajax({
 			type: "GET",
 			url: "functions.php",
-			data: {function: "getMessages"}
+			data: {function: "getMessages", since:MessageBoard.maxSerial}
 		}).done(function(data) { // called when the AJAX call is ready
-		    data = JSON.parse(data);
-
-			for(var mess in data) {
+            data = JSON.parse(data);
+            for(var mess in data) {
 				var obj = data[mess];
 			    var text = obj.name +" said:\n" +obj.message;
 				var mess = new Message(text, new Date());
                 var messageID = MessageBoard.messages.push(mess)-1;
                 MessageBoard.renderMessage(messageID);
+                if (obj.serial > MessageBoard.maxSerial) {
+                    MessageBoard.maxSerial = obj.serial;
+                }
 			}
-			document.getElementById("nrOfMessages").innerHTML = MessageBoard.messages.length;
-			
-		});
-	
-
+            document.getElementById("nrOfMessages").innerHTML = MessageBoard.messages.length;
+            MessageBoard.getMessages();
+        });
     },
     sendMessage:function(){
         if(MessageBoard.textField.value == "") return;
@@ -58,7 +59,7 @@ var MessageBoard = {
 		  	url: "functions.php",
 		  	data: {function: "add", name: MessageBoard.nameField.value, message:MessageBoard.textField.value}
 		}).done(function(data) {
-   		    alert("Your message is saved! Reload the page for watching it");
+   		    //alert("Your message is saved! Reload the page for watching it"); //no need to alert user since it is updating automatically
 		}).fail(function() {
             alert("retrieving failed");
         });
@@ -69,11 +70,10 @@ var MessageBoard = {
         MessageBoard.messageArea.innerHTML = "";
      
         // Renders all messages.
-        for(var i=0; i < MessageBoard.messages.length; ++i){
+       for(var i=0; i < MessageBoard.messages.length; ++i){
+             MessageBoard.renderMessage(i);
+         }
 
-            MessageBoard.renderMessage(i);
-        }        
-        
         document.getElementById("nrOfMessages").innerHTML = MessageBoard.messages.length;
     },
     renderMessage: function(messageID){
@@ -82,7 +82,7 @@ var MessageBoard = {
         div.className = "message";
        
         // Clock button
-        aTag = document.createElement("a");
+        var aTag = document.createElement("a");
         aTag.href="#";
         aTag.onclick = function(){
 			MessageBoard.showTime(messageID);
@@ -110,9 +110,11 @@ var MessageBoard = {
         var spanClear = document.createElement("span");
         spanClear.className = "clear";
 
-        div.appendChild(spanClear);        
-        
-        MessageBoard.messageArea.appendChild(div);       
+        div.appendChild(spanClear);
+
+        //MessageBoard.messageArea.appendChild(div);
+        MessageBoard.messageArea.insertBefore(div, MessageBoard.messageArea.firstChild); // newest at the top
+
     },
     removeMessage: function(messageID){
 		if(window.confirm("Vill du verkligen radera meddelandet?")){

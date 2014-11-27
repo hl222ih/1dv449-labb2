@@ -20,6 +20,20 @@ if(isset($_GET['function'])) {
 		addToDB($message, $name);
     }
     elseif($_GET['function'] == 'getMessages') {
-  	   	echo(json_encode(getMessages()));
+        $sinceSerial = 0;
+        $count = 0;
+        if (isset($_GET['since'])) {
+            $sinceSerial = $_GET['since'];
+        }
+        do {
+            $response = getMessages($sinceSerial);
+            if ($response) {
+                $messages = $response;
+                $count = count($messages);
+            } else {
+                sleep(1);
+            }
+        } while ($count == 0);
+        echo(json_encode($messages));
     }
 }
