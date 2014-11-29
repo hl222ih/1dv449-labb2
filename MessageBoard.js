@@ -33,6 +33,9 @@ var MessageBoard = {
         $.ajax({
 			type: "GET",
 			url: "functions.php",
+            headers: {
+                'X-Auth-Token' : $("meta[name='token']").attr("content")
+            },
 			data: {function: "getMessages", since:MessageBoard.maxSerial}
 		}).done(function(data) { // called when the AJAX call is ready
             data = JSON.parse(data);
@@ -57,6 +60,9 @@ var MessageBoard = {
         $.ajax({
 			type: "GET",
 		  	url: "functions.php",
+            headers: {
+                'X-Auth-Token' : $("meta[name='token']").attr("content")
+            },
 		  	data: {function: "add", name: MessageBoard.nameField.value, message:MessageBoard.textField.value}
 		}).done(function(data) {
    		    //alert("Your message is saved! Reload the page for watching it"); //no need to alert user since it is updating automatically
@@ -136,6 +142,9 @@ var MessageBoard = {
         $.ajax({
             type: "GET",
             url: "functions.php",
+            headers: {
+                'X-Auth-Token' : $("meta[name='token']").attr("content")
+            },
             data: {function: "logout"}
         }).done(function(data) {
             window.location = "index.php";

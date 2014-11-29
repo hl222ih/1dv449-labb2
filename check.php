@@ -12,6 +12,10 @@ if(isset($u) && isset($p) && isUser($u, $p)) {
 	$_SESSION['username'] = $u;
 	//$_SESSION['login_string'] = hash('sha512', "123456".$u); meningslös
     $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+
+    //generate new CSRF-token and put it in header response
+    setToken();
+    header("X-Auth-Token: ".getToken());
     header("Location: mess.php");
 }
 else {

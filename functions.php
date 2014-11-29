@@ -8,6 +8,12 @@ require_once("sec.php");
 /*
 * It's here all the ajax calls goes
 */
+
+if (!checkToken()) {
+    header('HTTP/1.1 401 Unauthorized');
+    die;
+}
+
 if(isset($_GET['function'])) {
     if($_GET['function'] == 'logout') {
 		logout();

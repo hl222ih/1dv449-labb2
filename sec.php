@@ -1,5 +1,5 @@
 <?php
-
+sec_session_start();
 /**
 Just som simple scripts for session handling
 */
@@ -117,5 +117,23 @@ function logout() {
     setcookie(session_name(), null, -1, '/');
     session_destroy();
     session_unset();
+}
+
+//funktionalitet för förhindrande av CSRF-attack.
+function setToken() {
+    //använder tips för CSRF-token-hashning på http://www.eschrade.com/page/generating-secure-cross-site-request-forgery-tokens-csrf/
+    $_SESSION['token'] = base64_encode( openssl_random_pseudo_bytes(32));
+}
+
+function getToken() {
+    return $_SESSION['token'];
+}
+
+function checkToken() {
+    $isAuthenticated = false;
+    if (isset($_SERVER['HTTP_X_AUTH_TOKEN'])) {
+        $isAuthenticated = ($_SERVER['HTTP_X_AUTH_TOKEN'] == getToken());
+    }
+    return $isAuthenticated;
 }
 

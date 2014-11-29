@@ -59,6 +59,17 @@ Hur kan det utnyttjas: Det kan innehålla skadlig kod som t ex ett javascript in
 Vad för skada kan det göra: Det kan utföra attacker på olika sätt.
 Åtgärd: Har använt strip_tags() för att ta bort html innan namn och meddelande sparas i databasen.
 
+Säkerhetshål: CSRF.
+Hur kan det utnyttjas: En annan applikation i samma webbläsare kan utnyttja faktumet att användaren är inloggad till
+att göra Requests till applikationen utan att användaren känner till det.
+Vad för skada kan det göra: Samma som första.
+Åtgärd: Använder ett hashat token som jag skapar vid inloggningen och lagrar i Sessionen.
+När mess.php sedan efterfrågas läggs tokenet i en tagg i <head>-elementet i den html som renderas av mess.php.
+I ajax-anropet som sedan utgår från klienten (MessageBoard) skickas tokenet med från <head>-elementet som sedan kontrolleras
+mot tokenet i Sessionen.
+På det här sättet undviker jag att behöva exponera tokenet i QueryString när functions.php anropas från MessageBoard.
+
+
 OPTIMERING
 ----------
 

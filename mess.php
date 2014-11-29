@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="token" content="<?php echo getToken() ?>"/>
     <link rel="apple-touch-icon" href="touch-icon-iphone.png">
     <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
     <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
@@ -168,7 +169,6 @@ background-color: #F3FCE4;
         <script>
             $(document).ready(function() {
                 MessageBoard.getMessages();
-
             });
         </script>
     </body>
